@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/friendImageView"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/colorAccent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/friendProfilePic"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+
+        android:layout_marginTop="112dp"
+        android:src="@drawable/profilepic"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/friendImageView" />
+
+    <TextView
+        android:id="@+id/friendProfileSliderName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/friendProfilePic"
+        app:layout_constraintStart_toEndOf="@+id/friendProfilePic"
+        app:layout_constraintTop_toBottomOf="@+id/friendProfilePic" />
+
+    <TextView
+        android:id="@+id/friendProfileSliderKnickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="(Khaled)"
+        android:textSize="20sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/friendProfileSliderName"
+        app:layout_constraintStart_toEndOf="@+id/friendProfileSliderName"
+        app:layout_constraintTop_toBottomOf="@+id/friendProfileSliderName" />
+
+    <TextView
+        android:id="@+id/friendQuestionLable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Questions"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friendProfileSliderKnickName" />
+
+    <TextView
+        android:id="@+id/friendNumOfQuestions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="50"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/friendQuestionLable"
+        app:layout_constraintStart_toEndOf="@+id/friendQuestionLable"
+        app:layout_constraintTop_toBottomOf="@+id/friendQuestionLable" />
+
+
+    <TextView
+        android:id="@+id/friendFollowersLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="followers"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/friendFollowingLabel"
+        app:layout_constraintStart_toEndOf="@+id/friendQuestionLable"
+        app:layout_constraintTop_toTopOf="@+id/friendQuestionLable" />
+
+    <TextView
+        android:id="@+id/friendNumOfFollowers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="40"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/friendFollowersLabel"
+        app:layout_constraintStart_toEndOf="@+id/friendFollowersLabel"
+        app:layout_constraintTop_toBottomOf="@+id/friendFollowersLabel" />
+
+    <TextView
+        android:id="@+id/friendFollowingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="104dp"
+        android:text="following"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/friendQuestionLable"
+        app:layout_constraintTop_toTopOf="@+id/friendQuestionLable" />
+
+    <TextView
+        android:id="@+id/friendNumOfFollowing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="30"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/friendFollowingLabel"
+        app:layout_constraintStart_toEndOf="@+id/friendFollowingLabel"
+        app:layout_constraintTop_toBottomOf="@+id/friendFollowingLabel" />
+
+    <Button
+
+        android:id="@+id/friendFollowBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="follow"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friendNumOfFollowers" />
+
+    <EditText
+        android:id="@+id/questionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:hint="ask a Question."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/friendFollowBtn" />
+
+    <Button
+        android:id="@+id/questionSendBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/questionEditText"
+        app:layout_constraintRight_toRightOf="@+id/questionEditText"
+        android:enabled="false"
+        android:text="ask"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:background="@color/colorAccent"/>
+</android.support.constraint.ConstraintLayout>

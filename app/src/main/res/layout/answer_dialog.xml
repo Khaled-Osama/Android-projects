@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/dialogQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/dialogAnswer"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:hint="write your answer here ."
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="2000"
+        android:maxLines="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/dialogQuestion"
+        app:layout_constraintTop_toBottomOf="@+id/dialogQuestion" />
+
+
+    <ImageButton
+        android:id="@+id/dialogSubmitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_send_black_24dp"
+        app:layout_constraintStart_toEndOf="@+id/dialogAnswer"
+        android:tint="#fff"
+        android:backgroundTint="@color/colorAccent"
+        android:padding="26dp"
+        app:layout_constraintEnd_toStartOf="@+id/dialogAnswer"
+        app:layout_constraintTop_toBottomOf="@+id/dialogAnswer" />
+
+
+</android.support.constraint.ConstraintLayout>
