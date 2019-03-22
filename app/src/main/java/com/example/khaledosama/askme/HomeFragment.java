@@ -62,7 +62,8 @@ public class HomeFragment extends Fragment {
 
         RecyclerView recyclerView = retView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("homeAnsweredQuestions").child(currentUser.id);
+        //Log.v("WWW",currentUser.id);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("homeAnsweredQuestions").child("445567519287243");
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

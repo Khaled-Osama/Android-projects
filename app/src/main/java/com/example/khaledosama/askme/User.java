@@ -19,18 +19,17 @@ import java.util.Map;
 import javax.security.auth.callback.Callback;
 
 public class User implements Serializable {
-    public String fName,lName,phone,knickName,id,fullName;
+    public String fName,lName,knickName,id,fullName;
     public int followers,following,numOfQuestions;
     public int userType;
     Map <String,Boolean>friends = new HashMap<>();
     public User(){
 
     }
-    public User(String id,String fName,String lName,String phone,int userType,String knickName,
+    public User(String id,String fName,String lName,int userType,String knickName,
                 int followers,int following,int numOfQuestions){
         this.fName=fName;
         this.lName=lName;
-        this.phone=phone;
         this.userType=userType;
         this.id = id;
         this.followers = followers;
