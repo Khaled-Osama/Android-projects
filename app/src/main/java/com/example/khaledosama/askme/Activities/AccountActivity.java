@@ -1,10 +1,9 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Activities;
 
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.MatrixCursor;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
@@ -15,11 +14,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.google.firebase.database.ChildEventListener;
+import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.AskedQuestionsFragment;
+import com.example.khaledosama.askme.FriendsFragment;
+import com.example.khaledosama.askme.HomeFragment;
+import com.example.khaledosama.askme.NonAnsweredQuestion;
+import com.example.khaledosama.askme.PendingQuestionsFragment;
+import com.example.khaledosama.askme.ProfileFragment;
+import com.example.khaledosama.askme.R;
+import com.example.khaledosama.askme.SearchAdapter;
+import com.example.khaledosama.askme.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +42,8 @@ public class AccountActivity extends AppCompatActivity {
     List<AnsweredQuestion>homeQuestions;
     List<NonAnsweredQuestion>pendingQuestions;
     List<User>users;
+
+
 
     User currentUser;
 
@@ -62,6 +71,7 @@ public class AccountActivity extends AppCompatActivity {
         });
 
         currentUser = (User)getIntent().getSerializableExtra("UserClass");
+        Log.v("WWW", currentUser.fName);
         List<AHBottomNavigationItem>items = new ArrayList<>();
         items.add(new AHBottomNavigationItem(getResources().getString(R.string.item1), R.drawable.home));
         items.add(new AHBottomNavigationItem(getResources().getString(R.string.item5), R.drawable.profile));

@@ -1,4 +1,4 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.khaledosama.askme.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
     private void launchInfoTakerActivity(){
-        Intent intent = new Intent(this,InfoTaker.class);
+        Intent intent = new Intent(this,InfoTakerActivity.class);
         intent.putExtra("UserAccessToken", accessToken);
         startActivity(intent);
         finish();

@@ -30,4 +30,7 @@
     <string name="ANSWERED_QUESTIONS_REF">answeredQuestionsRef</string>
 
 
+    <!-- FireBase -->
+    <string name="user_ref">user</string>
+
 </resources>

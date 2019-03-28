@@ -1,4 +1,4 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Activities;
 
 import android.app.ProgressDialog;
 import android.app.SearchManager;
@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.khaledosama.askme.R;
+import com.example.khaledosama.askme.SearchResultAdapter;
+import com.example.khaledosama.askme.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

@@ -61,7 +61,7 @@
                 <data android:scheme="@string/ak_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.MainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,14 +69,14 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".InfoTaker" >
+        <activity android:name=".Activities.InfoTakerActivity" >
 
         </activity>
-        <activity android:name=".AccountActivity">
+        <activity android:name=".Activities.AccountActivity">
 
         </activity>
         <activity android:name=".FriendProfile" />
-        <activity android:name=".SearchResultActivity">
+        <activity android:name=".Activities.SearchResultActivity">
         </activity>
     </application>
 
