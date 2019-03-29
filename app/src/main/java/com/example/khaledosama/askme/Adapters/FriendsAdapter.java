@@ -1,4 +1,4 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,17 +7,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.khaledosama.askme.Activities.FriendProfile;
+import com.example.khaledosama.askme.R;
+import com.example.khaledosama.askme.User;
+import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHolder> {
 
     private Context context;
-    private User currentUser;
-
+    ArrayList<User> friends;
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
         ImageView friendImage;
@@ -28,11 +31,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
 
         }
     }
-    ArrayList<User> friends;
-    public FriendsAdapter(ArrayList<User>mFriends,Context mContext,User mCurrentUser){
+    public FriendsAdapter(ArrayList<User> mFriends,Context mContext){
         friends = mFriends;
         context=mContext;
-        currentUser = mCurrentUser;
     }
     @NonNull
     @Override
@@ -51,7 +52,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
             public void onClick(View view) {
                 Intent intent = new Intent(context,FriendProfile.class);
                 intent.putExtra("friendProfile",user);
-                intent.putExtra("currentUser",currentUser);
                 context.startActivity(intent);
             }
         });
@@ -60,6 +60,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
     @Override
     public int getItemCount() {
         return friends.size();
+    }
+
+    public void swapList(ArrayList<User> firendUsers){
+        friends = firendUsers;
+        this.notifyDataSetChanged();
     }
 
 }

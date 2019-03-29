@@ -1,19 +1,19 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Adapters;
 
 import android.app.FragmentManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageButton;
-import android.widget.TextClock;
 import android.widget.TextView;
+
+import com.example.khaledosama.askme.NonAnsweredQuestion;
+import com.example.khaledosama.askme.R;
+import com.example.khaledosama.askme.User;
+import com.example.khaledosama.askme.Fragments.answerFragmentDialog;
 
 import java.util.ArrayList;
 

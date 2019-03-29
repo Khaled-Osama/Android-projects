@@ -1,4 +1,4 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Fragments;
 
 
 import android.os.Bundle;
@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
+import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.Adapters.HomeRecyclerAdapter;
+import com.example.khaledosama.askme.R;
+import com.example.khaledosama.askme.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 public class ProfileFragment extends Fragment {
 
     TextView profileName,profileKinckName,numOfQuestions,numOfFollowers,numOfFollowing;
-     public static User mUser;
+     public static String mUser;
      public static ArrayList<AnsweredQuestion> list;
      public static HomeRecyclerAdapter mHomeRecyclerAdapter;
      public static String ANSWERED_QUESTIONS_REF;
@@ -38,7 +41,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    public static ProfileFragment newInstance(User user) {
+    public static ProfileFragment newInstance(String user) {
         mUser = user;
         return new ProfileFragment();
     }
@@ -54,7 +57,7 @@ public class ProfileFragment extends Fragment {
         numOfFollowers = retView.findViewById(R.id.numOfFollowers);
         numOfFollowing = retView.findViewById(R.id.numOfFollowing);
         numOfQuestions = retView.findViewById(R.id.numOfQuestions);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("user").child(mUser.id);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("user").child(mUser);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -74,12 +77,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        profileName.setText(mUser.fullName);
-        profileKinckName.setText(mUser.knickName);
+        //profileName.setText(mUser.fullName);
+        //profileKinckName.setText(mUser.knickName);
 
 
         list = new ArrayList<AnsweredQuestion>();
-        DatabaseReference ref1 =FirebaseDatabase.getInstance().getReference().child("profileAnsweredQuestion").child(mUser.id);
+        DatabaseReference ref1 =FirebaseDatabase.getInstance().getReference().child("profileAnsweredQuestion").child(mUser);
         mHomeRecyclerAdapter = new HomeRecyclerAdapter(list);
         ref1.addChildEventListener(new ChildEventListener() {
             @Override

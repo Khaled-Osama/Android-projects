@@ -1,22 +1,19 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.Fragments.PendingQuestionsFragment;
+import com.example.khaledosama.askme.R;
+import com.example.khaledosama.askme.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,8 +24,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class answerFragmentDialog extends DialogFragment {
     int position;

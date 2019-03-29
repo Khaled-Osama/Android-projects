@@ -1,4 +1,4 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.R;
 
-class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.MyViewHolder>{
+import java.util.ArrayList;
+
+public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.MyViewHolder>{
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView questionTV,answerTV,date;

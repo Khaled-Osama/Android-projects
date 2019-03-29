@@ -1,4 +1,4 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Fragments;
 
 
 import android.os.Bundle;
@@ -8,8 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.example.khaledosama.askme.Adapters.HomeRecyclerAdapter;
+import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.R;
+import com.example.khaledosama.askme.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,14 +26,14 @@ import java.util.ArrayList;
  */
 public class AskedQuestionsFragment extends Fragment {
 
-    static User currentUser;
+    static String currentUser;
     ArrayList<AnsweredQuestion> list;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
     }
 
-    public static AskedQuestionsFragment newInstance(User user){
+    public static AskedQuestionsFragment newInstance(String user){
         currentUser = user;
         return new AskedQuestionsFragment();
     }
@@ -44,7 +47,7 @@ public class AskedQuestionsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         list = new ArrayList<>();
         final HomeRecyclerAdapter mHomeRecyclerAdapter = new HomeRecyclerAdapter(list);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("askedQuestionsRef").child(currentUser.id);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("askedQuestionsRef").child(currentUser);
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {

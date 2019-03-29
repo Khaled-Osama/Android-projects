@@ -1,21 +1,20 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Fragments;
 
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.Adapters.HomeRecyclerAdapter;
+import com.example.khaledosama.askme.R;
+import com.example.khaledosama.askme.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +22,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,14 +29,14 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     public static ArrayList<AnsweredQuestion> list;
     public static HomeRecyclerAdapter mHomeRecyclerAdapter;
-    public static User currentUser;
+    public static String currentUser;
 
     @Override
    public void onCreate(Bundle savedInstanceState){
     super.onCreate(savedInstanceState);
 
    }
-   public static HomeFragment newInstance(User user){
+   public static HomeFragment newInstance(String user){
         currentUser = user;
         return new HomeFragment();
    }

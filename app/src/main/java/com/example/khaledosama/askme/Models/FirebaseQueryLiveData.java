@@ -27,7 +27,7 @@ public class FirebaseQueryLiveData extends LiveData<DataSnapshot> {
 
     @Override
     protected void onInactive(){
-        query.addValueEventListener(listener);
+        query.removeEventListener(listener);
     }
 
     private class MyValueEventListener implements ValueEventListener{

@@ -1,4 +1,4 @@
-package com.example.khaledosama.askme;
+package com.example.khaledosama.askme.Fragments;
 
 
 import android.os.Bundle;
@@ -7,14 +7,15 @@ import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.NonAnsweredQuestion;
+import com.example.khaledosama.askme.Adapters.PendingQuestionAdapter;
+import com.example.khaledosama.askme.R;
+import com.example.khaledosama.askme.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,14 +31,14 @@ import java.util.HashMap;
 public class PendingQuestionsFragment extends Fragment {
     public static ArrayList<NonAnsweredQuestion> list;
     public static PendingQuestionAdapter mPendingQuestionAdapter;
-    public static User currentUser;
+    public static String currentUser;
     public static RecyclerView recyclerView;
     static FragmentManager fm;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
            }
-    public static PendingQuestionsFragment newInstance(User user){
+    public static PendingQuestionsFragment newInstance(String user){
         currentUser = user;
         return new PendingQuestionsFragment();
     }
@@ -55,7 +55,7 @@ public class PendingQuestionsFragment extends Fragment {
         recyclerView = retView.findViewById(R.id.pendingQuestionRecylerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DatabaseReference pendingQuestionsRef= FirebaseDatabase.getInstance().getReference().child("pendingQuestionsRef")
-                .child(currentUser.id);
+                .child(currentUser);
 
         list = new ArrayList<NonAnsweredQuestion>();
         pendingQuestionsRef.addChildEventListener(new ChildEventListener() {
@@ -89,14 +89,14 @@ public class PendingQuestionsFragment extends Fragment {
 
 
         //loadQuestions();
-        mPendingQuestionAdapter = new PendingQuestionAdapter(list,fm,currentUser);
+        //mPendingQuestionAdapter = new PendingQuestionAdapter(list,fm,currentUser);
         recyclerView.setAdapter(mPendingQuestionAdapter);
 
         return retView;
     }
 
     public static void loadQuestions(){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("pendingQuestionsRef").child(currentUser.id);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("pendingQuestionsRef").child(currentUser);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -116,7 +116,7 @@ public class PendingQuestionsFragment extends Fragment {
     }
 
     private static void showResults() {
-        mPendingQuestionAdapter = new PendingQuestionAdapter(list,fm,currentUser);
+        //mPendingQuestionAdapter = new PendingQuestionAdapter(list,fm,currentUser);
         recyclerView.setAdapter(mPendingQuestionAdapter);
     }
 

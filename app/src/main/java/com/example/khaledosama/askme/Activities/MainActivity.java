@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 
@@ -32,35 +33,6 @@ public class MainActivity extends AppCompatActivity {
     CallbackManager callbackManager;
     LoginButton loginButton;
     AccessToken accessToken;
-    ChildEventListener childEventListener=new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            String tmp = dataSnapshot.getKey();
-            if(tmp.equals(userID)){
-                launchAccountActivity();
-            }
-        }
-
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-        }
-
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,19 +50,35 @@ public class MainActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
-        loginButton.setReadPermissions(Arrays.asList("public_profile"));
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "user_friends"));
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 accessToken = loginResult.getAccessToken();
                 userID = accessToken.getUserId();
-                ref.addChildEventListener(childEventListener);
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int countt = 0;
+                        boolean ok = false;
+                        for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                            countt++;
+                            if(snapshot.getKey().equals(userID)){
+                                ok = true;
+                                launchAccountActivity();
+                            }
+                        }
+                        if(countt == dataSnapshot.getChildrenCount() && !ok){
+                            launchInfoTakerActivity();
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                /*Intent intent = new Intent(getApplicationContext(), InfoTaker.class);
-                startActivity(intent);*/
-
+                    }
+                });
             }
 
             @Override

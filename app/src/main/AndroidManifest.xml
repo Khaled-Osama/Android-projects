@@ -75,7 +75,7 @@
         <activity android:name=".Activities.AccountActivity">
 
         </activity>
-        <activity android:name=".FriendProfile" />
+        <activity android:name=".Activities.FriendProfile" />
         <activity android:name=".Activities.SearchResultActivity">
         </activity>
     </application>

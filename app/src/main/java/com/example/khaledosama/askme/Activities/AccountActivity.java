@@ -11,19 +11,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.SearchView;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.example.khaledosama.askme.AnsweredQuestion;
-import com.example.khaledosama.askme.AskedQuestionsFragment;
-import com.example.khaledosama.askme.FriendsFragment;
-import com.example.khaledosama.askme.HomeFragment;
+import com.example.khaledosama.askme.Fragments.AskedQuestionsFragment;
+import com.example.khaledosama.askme.Fragments.FriendsFragment;
+import com.example.khaledosama.askme.Fragments.HomeFragment;
 import com.example.khaledosama.askme.NonAnsweredQuestion;
-import com.example.khaledosama.askme.PendingQuestionsFragment;
-import com.example.khaledosama.askme.ProfileFragment;
+import com.example.khaledosama.askme.Fragments.PendingQuestionsFragment;
+import com.example.khaledosama.askme.Fragments.ProfileFragment;
 import com.example.khaledosama.askme.R;
 import com.example.khaledosama.askme.SearchAdapter;
 import com.example.khaledosama.askme.User;
@@ -45,7 +44,7 @@ public class AccountActivity extends AppCompatActivity {
 
 
 
-    User currentUser;
+    String currentUser;
 
     AHBottomNavigation navigation;
 
@@ -69,14 +68,12 @@ public class AccountActivity extends AppCompatActivity {
 
             }
         });
-
-        currentUser = (User)getIntent().getSerializableExtra("UserClass");
-        Log.v("WWW", currentUser.fName);
         List<AHBottomNavigationItem>items = new ArrayList<>();
         items.add(new AHBottomNavigationItem(getResources().getString(R.string.item1), R.drawable.home));
         items.add(new AHBottomNavigationItem(getResources().getString(R.string.item5), R.drawable.profile));
         items.add(new AHBottomNavigationItem(getResources().getString(R.string.item3), R.drawable.pending_questions));
         items.add(new AHBottomNavigationItem(getResources().getString(R.string.item4), R.drawable.asked_questions));
+        items.add(new AHBottomNavigationItem(getResources().getString(R.string.item6), R.drawable.friends));
         navigation.addItems(items);
 
         // set background color
@@ -130,6 +127,7 @@ public class AccountActivity extends AppCompatActivity {
 
 
     }
+
     Menu menu;
     SearchManager manager;
     SearchView searchView;
@@ -177,7 +175,7 @@ public class AccountActivity extends AppCompatActivity {
     public ArrayList<String> getUserNames(String query) {
         ArrayList<String>names=new ArrayList<>();
         for(User user:users){
-            if(user.id.equals(currentUser.id))continue;
+            if(user.id.equals(currentUser))continue;
             StringBuilder nameBuilder = new StringBuilder();
             nameBuilder.append(user.fName);
             nameBuilder.append(" ");
