@@ -74,8 +74,7 @@ public class InfoTakerActivity extends AppCompatActivity {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
-                    Log.v("WWW", object.toString());
-                    String email = object.getString("email");
+
                     fName.setText(profile.getFirstName());
                     lName.setText(profile.getLastName());
                     String id = object.getString("id");

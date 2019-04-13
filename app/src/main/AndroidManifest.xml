@@ -74,9 +74,20 @@
         </activity>
         <activity android:name=".Activities.AccountActivity">
 
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+
         </activity>
         <activity android:name=".Activities.FriendProfile" />
+
         <activity android:name=".Activities.SearchResultActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+
+
+
         </activity>
     </application>
 

@@ -22,14 +22,15 @@ import java.util.ArrayList;
 public class FBFriendsRepository extends ViewModel {
 
     public ArrayList<User> getFBFriends(String userID){
-
         GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
+                    Log.v("WWW",object.toString());
                     JSONArray jsonArray = object.getJSONObject("friends").getJSONArray("data");
-
+                    Log.v("WWW",object.toString());
                     for (int i = 0; i<jsonArray.length();i++){
+                        Log.v("WWW", jsonArray.get(i).toString());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

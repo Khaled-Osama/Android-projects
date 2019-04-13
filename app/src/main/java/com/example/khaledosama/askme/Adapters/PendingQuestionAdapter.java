@@ -36,13 +36,13 @@ public class PendingQuestionAdapter extends RecyclerView.Adapter<PendingQuestion
 
     }
     public static FragmentManager fm;
-    public User currentUser;
+    //public User currentUser;
     private ArrayList<NonAnsweredQuestion>questions;
-    public PendingQuestionAdapter(ArrayList<NonAnsweredQuestion>mQuestions, FragmentManager fm,User user)
+    public PendingQuestionAdapter(ArrayList<NonAnsweredQuestion>mQuestions, FragmentManager fm)
     {
         questions=mQuestions;
         this.fm = fm;
-        currentUser = user;
+        //currentUser = user;
     }
 
     @NonNull
@@ -65,7 +65,7 @@ public class PendingQuestionAdapter extends RecyclerView.Adapter<PendingQuestion
                 bundle.putString("question",question.getQuestion());
                 bundle.putInt("position",position);
                 bundle.putString("askedUserID",question.getAskedUserID());
-                bundle.putSerializable("currentUser",currentUser);
+                //bundle.putSerializable("currentUser",currentUser);
                 dialog.setArguments(bundle);
                 dialog.show( fm,"answer question");
             }

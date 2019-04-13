@@ -16,6 +16,7 @@ import com.example.khaledosama.askme.AnsweredQuestion;
 import com.example.khaledosama.askme.NonAnsweredQuestion;
 import com.example.khaledosama.askme.R;
 import com.example.khaledosama.askme.User;
+import com.facebook.Profile;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 
 public class FriendProfile extends AppCompatActivity {
     User user,currentUser;
+    String currUserID;
     Button followBtn;
     TextView friendKnickName,friendName,numOfQuestions,numOfFollowers,numOfFollowing;
     RecyclerView recyclerView;
@@ -37,7 +39,7 @@ public class FriendProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_profile);
         user = (User)getIntent().getSerializableExtra("friendProfile");
-        currentUser = (User)getIntent().getSerializableExtra("currentUser");
+        //currentUser = (User)getIntent().getSerializableExtra("currentUser");
         followBtn = findViewById(R.id.friendFollowBtn);
         friendKnickName = findViewById(R.id.friendProfileSliderKnickName);
         friendName = findViewById(R.id.friendProfileSliderName);
@@ -47,6 +49,8 @@ public class FriendProfile extends AppCompatActivity {
         numOfQuestions = findViewById(R.id.friendNumOfQuestions);
         numOfFollowers = findViewById(R.id.friendNumOfFollowers);
         numOfFollowing = findViewById(R.id.friendNumOfFollowing);
+
+        currUserID = Profile.getCurrentProfile().getId();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("user").child(user.id);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -121,11 +125,11 @@ public class FriendProfile extends AppCompatActivity {
         friendName.setText(user.fullName);
 
 
-        if(currentUser.follow(user.id)){
+        /*if(currentUser.follow(user.id)){
             followBtn.setText("Unfollow");
         }
         else
-            followBtn.setText("Follow");
+            followBtn.setText("Follow");*/
 
         followBtn.setOnClickListener(new View.OnClickListener() {
             @Override

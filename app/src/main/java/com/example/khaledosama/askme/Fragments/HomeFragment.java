@@ -1,6 +1,8 @@
 package com.example.khaledosama.askme.Fragments;
 
 
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import com.baoyz.widget.PullRefreshLayout;
 import com.example.khaledosama.askme.AnsweredQuestion;
 import com.example.khaledosama.askme.Adapters.HomeRecyclerAdapter;
+import com.example.khaledosama.askme.Models.AskedQuestionsViewModel;
 import com.example.khaledosama.askme.R;
 import com.example.khaledosama.askme.User;
 import com.google.firebase.database.ChildEventListener;
@@ -29,7 +32,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
     public static ArrayList<AnsweredQuestion> list;
     public static HomeRecyclerAdapter mHomeRecyclerAdapter;
-    public static String currentUser;
+    public static String currentUserID;
 
     @Override
    public void onCreate(Bundle savedInstanceState){
@@ -37,7 +40,7 @@ public class HomeFragment extends Fragment {
 
    }
    public static HomeFragment newInstance(String user){
-        currentUser = user;
+        currentUserID = user;
         return new HomeFragment();
    }
 
@@ -61,6 +64,7 @@ public class HomeFragment extends Fragment {
         RecyclerView recyclerView = retView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //Log.v("WWW",currentUser.id);
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("homeAnsweredQuestions").child("445567519287243");
         ref.addChildEventListener(new ChildEventListener() {
             @Override

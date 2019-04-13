@@ -30,6 +30,7 @@ public class answerFragmentDialog extends DialogFragment {
     String question,askedUserID;
     User currentUser;
     public answerFragmentDialog(){super();}
+
     private void addQuestionToFollowersHome(final AnsweredQuestion question){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("friends").child(currentUser.id);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -94,17 +95,17 @@ public class answerFragmentDialog extends DialogFragment {
                 Date currentTime = Calendar.getInstance().getTime();
                 String date = df.format(currentTime);
                 String answer = editText.getText().toString();
-                PendingQuestionsFragment.deleteItem(currentUser, position,question,answer,date);
+                //PendingQuestionsFragment.deleteItem(currentUser, position,question,answer,date);
 
                 AnsweredQuestion answeredQuestion = new AnsweredQuestion(question,answer,date);
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("askedQuestionsRef").child(askedUserID);
                 ref.push().setValue(answeredQuestion);
 
                 ref = FirebaseDatabase.getInstance().getReference().child("user").child(currentUser.id).child("numOfQuestions");
-                currentUser.numOfQuestions++;
-                ref.setValue(currentUser.numOfQuestions);
+                //currentUser.numOfQuestions++;
+                //ref.setValue(currentUser.numOfQuestions);
 
-                addQuestionToFollowersHome(answeredQuestion);
+                //addQuestionToFollowersHome(answeredQuestion);
 
                 dismiss();
             }

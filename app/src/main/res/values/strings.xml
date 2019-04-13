@@ -28,6 +28,7 @@
 
     <string name="PENDING_QUESTIONS_REF">pendingQuestionsRef</string>
     <string name="ANSWERED_QUESTIONS_REF">answeredQuestionsRef</string>
+    <string name="PENDING_QUESTION_RED">pendingQuestionsRef</string>
 
 
     <!-- FireBase -->

@@ -92,26 +92,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        /*database = FirebaseDatabase.getInstance();
-        ref = database.getReference().child("user");
-        AccountKit.getCurrentAccount(new AccountKitCallback<Account>() {
-            @Override
-            public void onSuccess(Account account) {
-                userID = account.getId();
-            }
-
-            @Override
-            public void onError(AccountKitError accountKitError) {
-
-            }
-        });
-        ref.addChildEventListener(childEventListener);*/
     }
     @Override
     protected void onPause(){
         super.onPause();
-        //ref.removeEventListener(childEventListener);
     }
 
     private void launchAccountActivity() {
@@ -131,26 +115,5 @@ public class MainActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    /*private void onLogin(final LoginType loginType){
-        final Intent intent = new Intent(this,AccountKitActivity.class);
-
-
-        final AccountKitConfiguration configuration = new AccountKitConfiguration.AccountKitConfigurationBuilder(
-                loginType,
-                AccountKitActivity.ResponseType.TOKEN
-        ).build();
-        intent.putExtra(AccountKitActivity.ACCOUNT_KIT_ACTIVITY_CONFIGURATION,configuration);
-        startActivityForResult(intent,APP_REQUEST_CODE);
-    }
-
-    public void onPhoneLogin(View view) {
-        onLogin(LoginType.PHONE);
-
-    }
-
-    public void onEmailLogin(View view) {
-        onLogin(LoginType.EMAIL);
-    }*/
 
 }

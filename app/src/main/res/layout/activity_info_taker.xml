@@ -11,10 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
-        android:hint="@string/last_name_hint"
-        android:textSize="30sp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/border"
+        android:hint="@string/last_name_hint"
         android:inputType="text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/firstName"
         app:layout_constraintTop_toTopOf="@+id/firstName" />
 
@@ -38,7 +40,7 @@
         android:layout_marginTop="36dp"
         android:background="@drawable/border"
         android:hint="@string/first_name_hint"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePic" />
@@ -50,7 +52,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/border"
         android:hint="@string/knick_name"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="@+id/firstName"
         app:layout_constraintTop_toBottomOf="@+id/firstName" />

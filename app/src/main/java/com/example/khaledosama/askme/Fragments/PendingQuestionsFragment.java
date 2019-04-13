@@ -1,8 +1,11 @@
 package com.example.khaledosama.askme.Fragments;
 
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.Models.PendingQuestionsViewModel;
 import com.example.khaledosama.askme.NonAnsweredQuestion;
 import com.example.khaledosama.askme.Adapters.PendingQuestionAdapter;
 import com.example.khaledosama.askme.R;
@@ -24,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +36,7 @@ import java.util.ArrayList;
 public class PendingQuestionsFragment extends Fragment {
     public static ArrayList<NonAnsweredQuestion> list;
     public static PendingQuestionAdapter mPendingQuestionAdapter;
-    public static String currentUser;
+    public static String currentUserID;
     public static RecyclerView recyclerView;
     static FragmentManager fm;
     @Override
@@ -39,7 +44,7 @@ public class PendingQuestionsFragment extends Fragment {
         super.onCreate(savedInstanceState);
            }
     public static PendingQuestionsFragment newInstance(String user){
-        currentUser = user;
+        currentUserID = user;
         return new PendingQuestionsFragment();
     }
 
@@ -55,7 +60,17 @@ public class PendingQuestionsFragment extends Fragment {
         recyclerView = retView.findViewById(R.id.pendingQuestionRecylerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DatabaseReference pendingQuestionsRef= FirebaseDatabase.getInstance().getReference().child("pendingQuestionsRef")
-                .child(currentUser);
+                .child(currentUserID);
+
+        PendingQuestionsViewModel viewModel = ViewModelProviders.of(this).get(PendingQuestionsViewModel.class);
+        viewModel.setUserID(currentUserID);
+
+        viewModel.getPendingQuestios().observe(this, new Observer<List<NonAnsweredQuestion>>() {
+            @Override
+            public void onChanged(@Nullable List<NonAnsweredQuestion> nonAnsweredQuestions) {
+                mPendingQuestionAdapter = new PendingQuestionAdapter((ArrayList<NonAnsweredQuestion>)nonAnsweredQuestions, fm);
+            }
+        });
 
         list = new ArrayList<NonAnsweredQuestion>();
         pendingQuestionsRef.addChildEventListener(new ChildEventListener() {
@@ -96,7 +111,7 @@ public class PendingQuestionsFragment extends Fragment {
     }
 
     public static void loadQuestions(){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("pendingQuestionsRef").child(currentUser);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("pendingQuestionsRef").child(currentUserID);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -1,7 +1,10 @@
 package com.example.khaledosama.askme.Fragments;
 
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.khaledosama.askme.Adapters.HomeRecyclerAdapter;
 import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.Models.AskedQuestionsViewModel;
 import com.example.khaledosama.askme.R;
 import com.example.khaledosama.askme.User;
 import com.google.firebase.database.ChildEventListener;
@@ -20,21 +24,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AskedQuestionsFragment extends Fragment {
 
-    static String currentUser;
-    ArrayList<AnsweredQuestion> list;
+    static String currentUserID;
+    HomeRecyclerAdapter mHomeRecyclerAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
     }
 
     public static AskedQuestionsFragment newInstance(String user){
-        currentUser = user;
+        currentUserID = user;
         return new AskedQuestionsFragment();
     }
 
@@ -43,11 +48,23 @@ public class AskedQuestionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View retView = inflater.inflate(R.layout.asked_questions_fragment,container,false);
-        RecyclerView recyclerView = retView.findViewById(R.id.askedQuestionsRecyclerView);
+        final RecyclerView recyclerView = retView.findViewById(R.id.askedQuestionsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        list = new ArrayList<>();
-        final HomeRecyclerAdapter mHomeRecyclerAdapter = new HomeRecyclerAdapter(list);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("askedQuestionsRef").child(currentUser);
+
+
+        AskedQuestionsViewModel viewModel = ViewModelProviders.of(this).get(AskedQuestionsViewModel.class);
+        viewModel.setUserID(currentUserID);
+
+        viewModel.getAskedQuestions().observe(this, new Observer<List<AnsweredQuestion>>() {
+            @Override
+            public void onChanged(@Nullable List<AnsweredQuestion> answeredQuestions) {
+                mHomeRecyclerAdapter = new HomeRecyclerAdapter((ArrayList<AnsweredQuestion>)answeredQuestions);
+                recyclerView.setAdapter(mHomeRecyclerAdapter);
+            }
+        });
+
+
+        /*DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("askedQuestionsRef").child(currentUserID);
         ref.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -76,7 +93,7 @@ public class AskedQuestionsFragment extends Fragment {
 
             }
         });
-        recyclerView.setAdapter(mHomeRecyclerAdapter);
+        recyclerView.setAdapter(mHomeRecyclerAdapter);*/
         return retView;
     }
 
