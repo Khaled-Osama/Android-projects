@@ -25,7 +25,7 @@
         android:layout_marginStart="8dp"
         android:text="Khaled Osama"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/searchResultImage"
         app:layout_constraintStart_toEndOf="@+id/searchResultImage"

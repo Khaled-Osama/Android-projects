@@ -17,6 +17,7 @@ import com.example.khaledosama.askme.AnsweredQuestion;
 import com.example.khaledosama.askme.Models.AskedQuestionsViewModel;
 import com.example.khaledosama.askme.R;
 import com.example.khaledosama.askme.User;
+import com.facebook.Profile;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,8 +39,7 @@ public class AskedQuestionsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public static AskedQuestionsFragment newInstance(String user){
-        currentUserID = user;
+    public static AskedQuestionsFragment newInstance(){
         return new AskedQuestionsFragment();
     }
 
@@ -50,7 +50,7 @@ public class AskedQuestionsFragment extends Fragment {
         View retView = inflater.inflate(R.layout.asked_questions_fragment,container,false);
         final RecyclerView recyclerView = retView.findViewById(R.id.askedQuestionsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        currentUserID = Profile.getCurrentProfile().getId();
 
         AskedQuestionsViewModel viewModel = ViewModelProviders.of(this).get(AskedQuestionsViewModel.class);
         viewModel.setUserID(currentUserID);

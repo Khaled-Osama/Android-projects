@@ -1,11 +1,15 @@
 package com.example.khaledosama.askme.Activities;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +17,12 @@ import android.widget.TextView;
 
 import com.example.khaledosama.askme.Adapters.HomeRecyclerAdapter;
 import com.example.khaledosama.askme.AnsweredQuestion;
+import com.example.khaledosama.askme.Models.ProfileQuestionsViewModel;
 import com.example.khaledosama.askme.NonAnsweredQuestion;
 import com.example.khaledosama.askme.R;
 import com.example.khaledosama.askme.User;
 import com.facebook.Profile;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FriendProfile extends AppCompatActivity {
     User user,currentUser;
@@ -31,6 +38,7 @@ public class FriendProfile extends AppCompatActivity {
     Button followBtn;
     TextView friendKnickName,friendName,numOfQuestions,numOfFollowers,numOfFollowing;
     RecyclerView recyclerView;
+    HomeRecyclerAdapter adapter;
     ArrayList<AnsweredQuestion>questions;
     EditText editText;
     Button askBtn;
@@ -44,6 +52,7 @@ public class FriendProfile extends AppCompatActivity {
         friendKnickName = findViewById(R.id.friendProfileSliderKnickName);
         friendName = findViewById(R.id.friendProfileSliderName);
         recyclerView = findViewById(R.id.friendProfileQuestionsRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         editText = findViewById(R.id.questionEditText);
         askBtn = findViewById(R.id.questionSendBtn);
         numOfQuestions = findViewById(R.id.friendNumOfQuestions);
@@ -96,40 +105,28 @@ public class FriendProfile extends AppCompatActivity {
                 if(!editText.getText().toString().trim().equals("")){
                     String str = editText.getText().toString();
                     editText.setText("");
-                    NonAnsweredQuestion question = new NonAnsweredQuestion(str,"1:25",currentUser.id);
-                    writeQuestion(question);
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.PENDING_QUESTIONS_REF)).child(user.id);
+                    String questionID = ref.push().getKey();
+                    NonAnsweredQuestion question = new NonAnsweredQuestion(str,"1:25",currUserID, questionID);
+                    ref.child(questionID).setValue(question);
                 }
             }
         });
 
+        ProfileQuestionsViewModel viewModel = ViewModelProviders.of(this).get(ProfileQuestionsViewModel.class);
+        viewModel.setUserID(user.id);
 
-        questions= new ArrayList<>();
-        DatabaseReference ref1 = FirebaseDatabase.getInstance().getReference().child("askedQuestions").child(user.id);
-        ref1.addValueEventListener(new ValueEventListener() {
+        viewModel.getProfileQuestions().observe(this, new Observer<List<AnsweredQuestion>>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot data : dataSnapshot.getChildren()){
-                    AnsweredQuestion question = data.getValue(AnsweredQuestion.class);
-                    questions.add(question);
-                }
-                showList();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onChanged(@Nullable List<AnsweredQuestion> answeredQuestions) {
+                adapter = new HomeRecyclerAdapter((ArrayList<AnsweredQuestion>) answeredQuestions);
+                recyclerView.setAdapter(adapter);
             }
         });
 
         friendKnickName.setText(user.knickName);
         friendName.setText(user.fullName);
 
-
-        /*if(currentUser.follow(user.id)){
-            followBtn.setText("Unfollow");
-        }
-        else
-            followBtn.setText("Follow");*/
 
         followBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,16 +141,6 @@ public class FriendProfile extends AppCompatActivity {
                 }
             }
         });
-    }
-    private void showList(){
-        HomeRecyclerAdapter adapter = new HomeRecyclerAdapter(questions);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-    }
-
-    private  void writeQuestion(NonAnsweredQuestion question){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.PENDING_QUESTIONS_REF)).child(user.id);
-        ref.push().setValue(question);
     }
 
 

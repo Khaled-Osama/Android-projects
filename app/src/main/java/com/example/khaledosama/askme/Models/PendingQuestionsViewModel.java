@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.khaledosama.askme.AnsweredQuestion;
 import com.example.khaledosama.askme.NonAnsweredQuestion;
@@ -19,26 +20,27 @@ import java.util.List;
 
 public class PendingQuestionsViewModel extends ViewModel {
 
-    DatabaseReference PENDING_QUESTIONS_REFRENCE = FirebaseDatabase.getInstance().getReference("pendingQuestionsRef");
+    private DatabaseReference PENDING_QUESTIONS_REFRENCE = FirebaseDatabase.getInstance().getReference("pendingQuestionsRef");
 
-    MutableLiveData<String> userIDLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> userIDLiveData = new MutableLiveData<>();
 
-    final LiveData<DataSnapshot> pendingQuestionsSnapShot = Transformations.switchMap(userIDLiveData,
+    final private LiveData<DataSnapshot> pendingQuestionsSnapShot = Transformations.switchMap(userIDLiveData,
             new Function<String, LiveData<DataSnapshot>>() {
                 @Override
                 public FirebaseQueryLiveData apply(String input) {
 
-                    return new FirebaseQueryLiveData(PENDING_QUESTIONS_REFRENCE);
+                    return new FirebaseQueryLiveData(PENDING_QUESTIONS_REFRENCE.child(input));
                 }
 
     });
-    final LiveData<List<NonAnsweredQuestion>> pendingQuestionsLiveData = Transformations.switchMap(pendingQuestionsSnapShot,
+    private final LiveData<List<NonAnsweredQuestion>> pendingQuestionsLiveData = Transformations.switchMap(pendingQuestionsSnapShot,
             new Function<DataSnapshot, LiveData<List<NonAnsweredQuestion>>>() {
             @Override
             public LiveData<List<NonAnsweredQuestion>> apply(DataSnapshot input) {
                 List<NonAnsweredQuestion> pendingQuestions = new ArrayList<>();
                 for(DataSnapshot snapshot:input.getChildren()){
-                    pendingQuestions.add((NonAnsweredQuestion)snapshot.getValue());
+                    pendingQuestions.add(snapshot.getValue(NonAnsweredQuestion.class));
+
                 }
 
                 MutableLiveData<List<NonAnsweredQuestion>> mutableLiveData = new MutableLiveData<>();

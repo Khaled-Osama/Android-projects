@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 import com.example.khaledosama.askme.AnsweredQuestion;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +27,7 @@ public class AskedQuestionsViewModel extends ViewModel {
                 @Override
                 public FirebaseQueryLiveData apply(String input) {
 
-                    return new FirebaseQueryLiveData(ASKED_QUESTIONS_REFERENCE);
+                    return new FirebaseQueryLiveData(ASKED_QUESTIONS_REFERENCE.child(input));
                 }
 
             });
@@ -36,7 +37,8 @@ public class AskedQuestionsViewModel extends ViewModel {
         public LiveData<List<AnsweredQuestion>> apply(DataSnapshot input) {
             List<AnsweredQuestion> askedQuestions = new ArrayList<>();
             for(DataSnapshot dataSnapshot: input.getChildren()){
-                askedQuestions.add((AnsweredQuestion) dataSnapshot.getValue());
+                Log.v("WWW", dataSnapshot.getValue().toString());
+                askedQuestions.add( dataSnapshot.getValue(AnsweredQuestion.class));
             }
             MutableLiveData<List<AnsweredQuestion>> mutableLiveData = new MutableLiveData<>();
             mutableLiveData.setValue(askedQuestions);

@@ -28,8 +28,10 @@
 
     <string name="PENDING_QUESTIONS_REF">pendingQuestionsRef</string>
     <string name="ANSWERED_QUESTIONS_REF">answeredQuestionsRef</string>
-    <string name="PENDING_QUESTION_RED">pendingQuestionsRef</string>
-
+    <string name="ASKED_QUESTIONS_REF">askedQuestionsRef</string>
+    <string name="PROFILE_ANSWERED_QUESTIONS">profileAnsweredQuestion</string>
+    <string name="HOME_QUESTIONS">homeAnsweredQuestions</string>
+    <string name="FRIENDS_REF">friends</string>
 
     <!-- FireBase -->
     <string name="user_ref">user</string>

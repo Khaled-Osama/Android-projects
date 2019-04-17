@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,9 +64,8 @@ public class PendingQuestionAdapter extends RecyclerView.Adapter<PendingQuestion
                 answerFragmentDialog dialog = new answerFragmentDialog();
                 Bundle bundle = new Bundle();
                 bundle.putString("question",question.getQuestion());
-                bundle.putInt("position",position);
                 bundle.putString("askedUserID",question.getAskedUserID());
-                //bundle.putSerializable("currentUser",currentUser);
+                bundle.putString("questionID", question.getQuestionID());
                 dialog.setArguments(bundle);
                 dialog.show( fm,"answer question");
             }

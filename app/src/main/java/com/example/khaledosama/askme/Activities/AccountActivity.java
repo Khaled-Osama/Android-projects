@@ -83,7 +83,7 @@ public class AccountActivity extends AppCompatActivity {
         final FragmentManager fm =getSupportFragmentManager();
 
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.frame_layout,HomeFragment.newInstance(currentUser));
+        transaction.replace(R.id.frame_layout,HomeFragment.newInstance());
         transaction.commit();
 
 
@@ -96,17 +96,17 @@ public class AccountActivity extends AppCompatActivity {
                 if(!wasSelected){
                     switch(position){
                         case 0:
-                            selectedFragment =HomeFragment.newInstance(currentUser);
+                            selectedFragment =HomeFragment.newInstance();
 
                             break;
                         case 1:
-                            selectedFragment = ProfileFragment.newInstance(currentUser);
+                            selectedFragment = ProfileFragment.newInstance();
                             break;
                         case 2:
-                            selectedFragment= PendingQuestionsFragment.newInstance(currentUser);
+                            selectedFragment= PendingQuestionsFragment.newInstance();
                             break;
                         case 3:
-                            selectedFragment = AskedQuestionsFragment.newInstance(currentUser);
+                            selectedFragment = AskedQuestionsFragment.newInstance();
                             break;
                         case 4:
                             selectedFragment = FriendsFragment.newInstance(currentUser);

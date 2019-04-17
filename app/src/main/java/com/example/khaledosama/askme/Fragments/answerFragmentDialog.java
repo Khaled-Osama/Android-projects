@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,6 +15,7 @@ import com.example.khaledosama.askme.AnsweredQuestion;
 import com.example.khaledosama.askme.Fragments.PendingQuestionsFragment;
 import com.example.khaledosama.askme.R;
 import com.example.khaledosama.askme.User;
+import com.facebook.Profile;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,8 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class answerFragmentDialog extends DialogFragment {
-    int position;
-    String question,askedUserID;
+    String question,askedUserID, userID, questionID;
     User currentUser;
     public answerFragmentDialog(){super();}
 
@@ -58,10 +59,14 @@ public class answerFragmentDialog extends DialogFragment {
         View v = getActivity().getLayoutInflater().inflate(R.layout.answer_dialog,null);
         builder.setView(v);
         final Bundle bundle = getArguments();
-        position = bundle.getInt("position");
+
         question = bundle.getString("question");
         askedUserID = bundle.getString("askedUserID");
-        currentUser=(User)bundle.getSerializable("currentUser");
+        questionID = bundle.getString("questionID");
+        Log.v("WWW", questionID);
+
+
+        userID = Profile.getCurrentProfile().getId();
 
 
         final EditText editText = v.findViewById(R.id.dialogAnswer);
@@ -97,21 +102,68 @@ public class answerFragmentDialog extends DialogFragment {
                 String answer = editText.getText().toString();
                 //PendingQuestionsFragment.deleteItem(currentUser, position,question,answer,date);
 
-                AnsweredQuestion answeredQuestion = new AnsweredQuestion(question,answer,date);
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("askedQuestionsRef").child(askedUserID);
+
+                final AnsweredQuestion answeredQuestion = new AnsweredQuestion(question,answer,date);
+
+                //Push to askedQuestions as answered question.
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(getString(R.string.ASKED_QUESTIONS_REF)).child(askedUserID);
+                ref.push().setValue(answeredQuestion);
+                // Push to Profile questions.
+                ref = FirebaseDatabase.getInstance().getReference().
+                        child(getString(R.string.PROFILE_ANSWERED_QUESTIONS)).
+                        child(userID);
+
                 ref.push().setValue(answeredQuestion);
 
-                ref = FirebaseDatabase.getInstance().getReference().child("user").child(currentUser.id).child("numOfQuestions");
-                //currentUser.numOfQuestions++;
-                //ref.setValue(currentUser.numOfQuestions);
+                // remove from pendingQuestions
 
-                //addQuestionToFollowersHome(answeredQuestion);
+                ref = FirebaseDatabase.getInstance().getReference().
+                        child(getString(R.string.PENDING_QUESTIONS_REF)).
+                        child(userID).child(questionID);
 
-                dismiss();
+                ref.removeValue();
+
+                // increment numOfQuestios
+
+                final DatabaseReference questionsRef = FirebaseDatabase.getInstance().getReference("user").child(userID).child("numOfQuestions");
+                questionsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        long numOfQuestions = dataSnapshot.getValue(Long.class);
+                        questionsRef.setValue(numOfQuestions + 1);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+                ref = FirebaseDatabase.getInstance().getReference().child(getString(R.string.FRIENDS_REF)).child(userID);
+
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                            String id = dataSnapshot1.getValue(String.class);
+
+                            DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference().
+                                    child(getString(R.string.HOME_QUESTIONS)).child(id);
+
+                            ref2.push().setValue(answeredQuestion);
+                        }
+                        dismiss();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
             }
         });
 
-        //builder.setCustomTitle(t);
         return builder.create();
 
     }

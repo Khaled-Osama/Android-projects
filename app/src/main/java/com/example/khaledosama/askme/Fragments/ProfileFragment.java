@@ -1,10 +1,14 @@
 package com.example.khaledosama.askme.Fragments;
 
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +16,10 @@ import android.widget.TextView;
 
 import com.example.khaledosama.askme.AnsweredQuestion;
 import com.example.khaledosama.askme.Adapters.HomeRecyclerAdapter;
+import com.example.khaledosama.askme.Models.ProfileQuestionsViewModel;
 import com.example.khaledosama.askme.R;
 import com.example.khaledosama.askme.User;
+import com.facebook.Profile;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,7 +36,7 @@ import java.util.ArrayList;
 public class ProfileFragment extends Fragment {
 
     TextView profileName,profileKinckName,numOfQuestions,numOfFollowers,numOfFollowing;
-     public static String mUser;
+     public static String currentUserID;
      public static ArrayList<AnsweredQuestion> list;
      public static HomeRecyclerAdapter mHomeRecyclerAdapter;
      public static String ANSWERED_QUESTIONS_REF;
@@ -41,8 +48,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    public static ProfileFragment newInstance(String user) {
-        mUser = user;
+    public static ProfileFragment newInstance() {
         return new ProfileFragment();
     }
 
@@ -57,10 +63,14 @@ public class ProfileFragment extends Fragment {
         numOfFollowers = retView.findViewById(R.id.numOfFollowers);
         numOfFollowing = retView.findViewById(R.id.numOfFollowing);
         numOfQuestions = retView.findViewById(R.id.numOfQuestions);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("user").child(mUser);
+
+        currentUserID = Profile.getCurrentProfile().getId();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("user").child(currentUserID);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                     int followed = dataSnapshot.child("followers").getValue(Integer.class);
                     int following = dataSnapshot.child("following").getValue(Integer.class);
                     int numOfQuestion = dataSnapshot.child("numOfQuestions").getValue(Integer.class);
@@ -68,6 +78,7 @@ public class ProfileFragment extends Fragment {
                     numOfFollowers.setText(String.valueOf(followed));
                     numOfFollowing.setText(String.valueOf(following));
                     numOfQuestions.setText(String.valueOf(numOfQuestion));
+
             }
 
             @Override
@@ -77,51 +88,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        //profileName.setText(mUser.fullName);
-        //profileKinckName.setText(mUser.knickName);
+        ProfileQuestionsViewModel viewModel= ViewModelProviders.of(this).get(ProfileQuestionsViewModel.class);
+        viewModel.setUserID(currentUserID);
 
-
-        list = new ArrayList<AnsweredQuestion>();
-        DatabaseReference ref1 =FirebaseDatabase.getInstance().getReference().child("profileAnsweredQuestion").child(mUser);
-        mHomeRecyclerAdapter = new HomeRecyclerAdapter(list);
-        ref1.addChildEventListener(new ChildEventListener() {
+        viewModel.getProfileQuestions().observe(this, new Observer<List<AnsweredQuestion>>() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                AnsweredQuestion question = dataSnapshot.getValue(AnsweredQuestion.class);
-                list.add(question);
-                mHomeRecyclerAdapter.notifyItemInserted(list.size()-1);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onChanged(@Nullable List<AnsweredQuestion> answeredQuestions) {
+                mHomeRecyclerAdapter = new HomeRecyclerAdapter((ArrayList<AnsweredQuestion>) answeredQuestions);
+                recyclerView.setAdapter(mHomeRecyclerAdapter);
             }
         });
-        //loadQuestions();
-        recyclerView.setAdapter(mHomeRecyclerAdapter);
+
         return retView;
-    }
-    public static void addItem(User user,AnsweredQuestion question){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("profileAnsweredQuestion").child(user.id);
-        ref.push().setValue(question);
-    }
-    public static void showList(){
-        HomeRecyclerAdapter mHomeRecyclerAdapter = new HomeRecyclerAdapter(list);
-        recyclerView.setAdapter(mHomeRecyclerAdapter);
     }
 }
